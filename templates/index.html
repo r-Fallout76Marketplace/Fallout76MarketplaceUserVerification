@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>r/Fallout76Marketplace</title>
+
+    <img class="banner-image" src="/static/images/banner_cropped.png">
+    <ul class="nav_bar">
+        <li style="float:left;">
+            <img class="logo" src="/static/images/logo.png">
+            <h3 style="display: inline-block;">r/Fallout76Marketplace</h3>
+        </li>
+        <div style="display: inline; float: right">
+            <li><a href="https://www.reddit.com/r/Fallout76Marketplace/">r/Fallout76Marketplace</a></li>
+            <li><a href="https://trello.com/b/8oCsXC2j">Trading Blacklist</a></li>
+            <li><a href="https://www.reddit.com/r/Fallout76Marketplace/wiki/index">Wiki</a></li>
+            <li><a href="https://www.reddit.com/message/compose?to=/r/Fallout76Marketplace">Contact Us</a></li>
+        </div>
+    </ul>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>r/Fallout76Marketplace User Registration</h1>
+    <p>Just one more step before you start trading at r/Fallout76Marketplace.</p>
+    <div class="reddit-card">
+        <div class="title_bar">
+            <h4>Connect your Reddit Account</h4>
+        </div>
+        <input id="reddit-login" type="submit" value="Sign in with Reddit">
+    </div>
+</div>
+
+<footer>
+    <p>
+        <script>document.write(new Date().getFullYear().toString())</script>
+        r/Fallout76Marketplace. Fallout series, Fallout 76, and all the content are property of Betheda/Zenimax Media Inc.
+    </p>
+</footer>
+</body>
+</html>
