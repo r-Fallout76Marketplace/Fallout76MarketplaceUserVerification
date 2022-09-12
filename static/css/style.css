@@ -43,8 +43,8 @@ body {
 
 .menu__btn {
     position: fixed;
-    top: 20px;
-    right: 5px;
+    top: 35px;
+    right: 20px;
     width: 25px;
     height: 25px;
     cursor: pointer;
@@ -154,6 +154,7 @@ h3, p {
 
 
 footer {
+    margin: 20px auto;
     background-color: #1d1d1d;
     text-align: center;
     padding: 15px 15px 15px 15px;
