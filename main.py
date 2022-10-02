@@ -1,3 +1,4 @@
+import os
 from os import getenv
 
 from flask import Flask, render_template, redirect, request
@@ -19,7 +20,7 @@ def reddit_oauth_callback():
 @app.route('/reddit_oauth', methods=["GET"])
 def reddit_oauth():
     return redirect("https://www.reddit.com/api/v1/authorize?"
-                    f"client_id={getenv('CLIENT_ID')}"
+                    f"client_id={getenv('CLIENT_ID')}&"
                     "response_type=code&"
                     "state=fallout&"
                     "redirect_uri=http://localhost:5000/login/callback&"
