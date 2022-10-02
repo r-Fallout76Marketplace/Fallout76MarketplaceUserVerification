@@ -4,8 +4,21 @@
     font-family: Arial, Verdana, serif;
 }
 
-body {
-    background-color: #191F25;
+@media (min-width: 0px) {
+    body {
+        background-image: url("../images/mobile_background.png");
+        background-size: cover;
+    }
+}
+
+
+@media (min-width: 1024px) {
+    body {
+        background-image: url("../images/background.jpg");
+        background-repeat: no-repeat;
+        background-size: auto;
+        background-position: top, center;
+    }
 }
 
 .nav_bar {
@@ -99,7 +112,7 @@ body {
 }
 
 .menu__item:hover {
-    background-color: #FFA000;
+    background-color: #D9AF2F;
 }
 
 .logo {
@@ -125,17 +138,18 @@ h3, p {
 
 .title_bar {
     border-radius: 5px;
-    background-color: #FFA000;
+    background-color: #D9AF2F;
     padding: 10px 10px 10px 10px;
     font-size: 20px;
     font-weight: bold;
 }
 
 .reddit-card {
-    max-width: 350px;
-    margin: auto;
+    max-width: 330px;
+    margin: 10px auto;
     padding: 10px;
     background-color: #242424;
+    border-radius: 15px;
 }
 
 #reddit-login {
@@ -145,19 +159,29 @@ h3, p {
     border-radius: 10px;
     font-weight: bold;
     font-size: 16px;
-    padding: 10px 10px 10px 60px;
+    padding: 15px 15px 15px 65px;
     background-image: url("../images/snoo.png");
     background-repeat: no-repeat;
     background-size: 40px;
     background-position: center left;
 }
 
+.separator {
+    text-align: center;
+    margin: 30px auto 15px auto;
+}
 
 footer {
-    margin: 20px auto;
     background-color: #1d1d1d;
     text-align: center;
     padding: 15px 15px 15px 15px;
     font-size: 10px;
-    width: auto;
+}
+
+@media (min-width: 576px) {
+    footer {
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+    }
 }
