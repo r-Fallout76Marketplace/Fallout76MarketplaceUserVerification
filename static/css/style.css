@@ -26,10 +26,33 @@
     background-color: #242424;
     height: 70px;
     padding-inline-start: 0;
+    list-style-type: none;
+    overflow: auto;
 }
 
 .nav_bar > li {
     display: inline-block;
+    float: left;
+    margin: 15px 15px auto;
+}
+
+.neonText {
+    font-family: "Bad Script", serif;
+    display: inline-block;
+    color: #D9AF2F;
+    animation: flicker 2.5s infinite alternate;
+}
+
+@keyframes flicker {
+
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow: 0 0 10px #D9AF2F,
+        0 0 12px #D9AF2F;
+    }
+
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
 }
 
 #menu__toggle {
