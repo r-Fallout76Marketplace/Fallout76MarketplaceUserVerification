@@ -6,6 +6,10 @@
     font-family: Arial, Verdana, serif;
 }
 
+body {
+    min-height: 1080px;
+}
+
 @media (min-width: 0px) {
     body {
         background-image: url("../images/mobile_background.png");
