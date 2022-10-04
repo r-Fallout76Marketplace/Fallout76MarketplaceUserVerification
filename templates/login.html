@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block css_link %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block card_title %}Login or Sign Up{% endblock %}
+{% block content %}
+    <p>Just one more step before you start trading at r/Fallout76Marketplace.</p>
+    <p>Please download PSN/XBOX App from app store, or be near your console, as you will be asked to input a message sent to you.</p>
+    <form action="/reddit_oauth" method="POST">
+        <input id="reddit-login" type="submit" value="Sign up with Reddit">
+    </form>
+    <div class="separator">OR</div>
+    <p>Already Registered? Login with existing account to manage your profile.</p>
+    <form action="/reddit_login" method="POST">
+        <input id="reddit-login" style="background-color: #0079d3;" type="submit" value="Login with Reddit">
+    </form>
+{% endblock %}

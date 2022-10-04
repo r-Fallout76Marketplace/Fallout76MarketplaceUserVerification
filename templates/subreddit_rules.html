@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block css_link %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/platform_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gt_style.css') }}">
+{% endblock %}
+
+{% block card_title %}Subreddit Rules{% endblock %}
+{% block content %}
+    <p>By clicking on the Agree button below, you accept the terms and conditions of r/Fallout76Marketplace.</p>
+    <p>You have read all our rules: <a href="https://www.reddit.com/r/Fallout76Marketplace/about/rules" target="_blank" rel="noopener noreferrer">
+        r/Fallout76Marketplace Rules</a></p>
+    <p>We highly suggest that you record all your trades i.e. screenshots of chats and screen recording of trades. This will help us catch the scammers.
+        Without evidence, we DO NOT BLACKLIST anyone!</p>
+    <p>Fallout76Marketplace holds right to ban or blacklist users, or both if any of the subreddit rules are broken.
+        The duration of the ban will depend on the severity of the offense</p>
+    <form action="/user_profile" method="POST">
+        <input id="next_btn" type="submit" value="Agree">
+    </form>
+{% endblock %}

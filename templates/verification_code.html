@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block css_link %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/platform_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gt_style.css') }}">
+{% endblock %}
+
+{% block card_title %}{{ platform }} GamerTag Verification{% endblock %}
+{% block content %}
+    <p>Enter the 6 digit verification code sent to you.</p>
+    {% if warning_message|length > 0 %}
+        <p style="color: red;">{{ warning_message }}</p>
+    {% endif %}
+    <form action="/user_verification/verify_code" method="POST">
+        <div class="gamertag-input">
+            <label for="verification_code">Code: </label>
+            <input id="gamertag" type="number" name="verification_code" placeholder="Enter the Verification Code" required>
+        </div>
+        <input id="next_btn" type="submit" value="Next">
+    </form>
+{% endblock %}

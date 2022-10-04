@@ -1,0 +1,23 @@
+.reddit-card > form > ul {
+    padding: 10px;
+}
+
+.reddit-card > form > ul > li {
+    padding: 20px;
+    list-style-type: none;
+}
+
+.reddit-card > form > ul > li:hover {
+    background-color: #D9AF2F;
+    color: black;
+}
+
+#next_btn {
+    background-color: #D9AF2F;
+    color: black;
+    padding: 5px 50px 5px 50px;
+    display: block;
+    margin: 10px auto;
+    border-radius: 15px;
+    font-size: 18px;
+}
