@@ -65,7 +65,7 @@ def reddit_oauth():
                     f"client_id={getenv('CLIENT_ID')}&"
                     "response_type=code&"
                     "state=fallout&"
-                    "redirect_uri=http://localhost:5000/login/callback&"
+                    "redirect_uri=https://9i04rv.deta.dev/login/callback&"
                     "duration=permanent&"
                     "scope=identity", code=302)
 
