@@ -65,7 +65,7 @@ def reddit_oauth():
                     f"client_id={getenv('CLIENT_ID')}&"
                     "response_type=code&"
                     "state=fallout&"
-                    "redirect_uri=https://fallout76marketplace.deta.dev/login/callback&"
+                    f"redirect_uri={getenv('redirect_uri')}&"
                     "duration=permanent&"
                     "scope=identity", code=302)
 

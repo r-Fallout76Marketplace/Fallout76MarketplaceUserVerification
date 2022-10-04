@@ -11,7 +11,7 @@ def get_access_token():
         # Gets access token from refresh token
         auth = HTTPBasicAuth(getenv('CLIENT_ID'), getenv('CLIENT_SECRET'))
         header = {'User-agent': 'Fallout76MarketplaceUserVerification v0.0.1'}
-        data = {'grant_type': 'refresh_token', 'refresh_token': session.get('tokens').get('refresh_token')}
+        data = {'grant_type': 'refresh_token', 'refresh_token': session.get('refresh_token')}
         res = requests.post('https://www.reddit.com/api/v1/access_token', auth=auth, headers=header, data=data)
         json_data = res.json()
         return json_data
@@ -19,7 +19,7 @@ def get_access_token():
         # Gets access token from code
         auth = HTTPBasicAuth(getenv('CLIENT_ID'), getenv('CLIENT_SECRET'))
         header = {'User-agent': 'Fallout76MarketplaceUserVerification v0.0.1'}
-        data = {'grant_type': 'authorization_code', 'code': session.get('code'), 'redirect_uri': 'http://localhost:5000/login/callback'}
+        data = {'grant_type': 'authorization_code', 'code': session.get('code'), 'redirect_uri': getenv('redirect_uri')}
         res = requests.post('https://www.reddit.com/api/v1/access_token', auth=auth, headers=header, data=data)
         json_data = res.json()
         session['refresh_token'] = json_data['refresh_token']
