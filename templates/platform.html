@@ -5,18 +5,22 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/platform_style.css') }}">
 {% endblock %}
 
-{% block card_title %}Select your platform{% endblock %}
 {% block content %}
-    <p>You may choose multiple platforms. </p>
-    {% if enable_warning %}
-        <p style="color: red;">You need to select at least one platform.</p>
-    {% endif %}
-    <form action="/user_verification_redirect" method="POST">
-        <ul>
-            <li><label><input type="checkbox" value="XBOX" name="platform_checkbox"></label> XBOX</li>
-            <li><label><input type="checkbox" value="PlayStation" name="platform_checkbox"></label> PlayStation</li>
-            <li><label><input type="checkbox" value="Fallout 76" name="platform_checkbox"></label> PC</li>
-        </ul>
-        <input id="next_btn" type="submit" value="Next">
-    </form>
+    <div class="card">
+        <div class="title_bar">
+            <h4 style="color: black;">Select your platform</h4>
+        </div>
+        <p>You may choose multiple platforms. </p>
+        {% if enable_warning %}
+            <p style="color: red;">You need to select at least one platform.</p>
+        {% endif %}
+        <form action="/user_verification/redirect" method="POST">
+            <ul>
+                <li><label><input type="checkbox" value="XBOX" name="platform_checkbox"></label> XBOX</li>
+                <li><label><input type="checkbox" value="PlayStation" name="platform_checkbox"></label> PlayStation</li>
+                <li><label><input type="checkbox" value="Fallout 76" name="platform_checkbox"></label> PC</li>
+            </ul>
+            <input id="next_btn" type="submit" value="Next">
+        </form>
+    </div>
 {% endblock %}

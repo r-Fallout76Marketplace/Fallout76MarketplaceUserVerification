@@ -1,10 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-TODO: Finish this later
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block css_link %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile_style.css') }}">
+{% endblock %}
+
+{% block profile_menu_item %}
+    {% if profile_info['is_logged_in'] %}
+        <li>
+            <a class="menu__item" href="{{ url_for('profile.user_profile', user_name=profile_info['display_name']) }}">
+                <img class="profile_pic_menu" src="{{ profile_info['profile_pic_uri'] }}" alt="https://avatarfiles.alphacoders.com/917/91786.jpg">
+            </a>
+        </li>
+        <li><a class="menu__item" href="{{ url_for('profile.user_profile', user_name=username) }}">u/{{ profile_info['display_name'] }}</a></li>
+        {% if profile_info['is_own_profile'] %}
+            <li><a class="menu__item" href="{{ url_for('profile.update_user_info') }}">Refresh data</a></li>
+        {% endif %}
+        <li><a class="menu__item" href="{{ url_for('profile.log_out_user') }}">Log Out</a></li>
+    {% else %}
+        <li><a class="menu__item" href="{{ url_for('index') }}">Log In / Sign Up</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <img class="profile_pic" src="{{ profile_info['profile_pic_uri'] }}" alt="https://avatarfiles.alphacoders.com/917/91786.jpg">
+    <div class="card">
+        <p style="padding-top: 40px; text-align: center; font-weight: bold">u/{{ profile_info['display_name'] }}</p>
+        <div class="grid-container">
+            <div class="grid-item" style="background-color: #325886;">Trading Karma: {{ profile_info['trading_karma'] }}</div>
+            <div class="grid-item" style="background-color: #FF4300;">Reddit Karma: {{ profile_info['reddit_karma'] }}</div>
+        </div>
+        {% if profile_info['is_courier'] %}
+            <div class="platform_card" style="background-color: #D9AF2F; color: black">
+                <ul>
+                    <li><img class="platform_logo" style="border-radius: 20px" src="/static/images/76_logo.png"></li>
+                    <li style="float: right; margin: 17px; color: black; font-size: 14px; font-weight: bold;">r/Fallout76Marketplace Verified Courier</li>
+                </ul>
+            </div>
+        {% endif %}
+        {% for gamertag in profile_info['gamer_tags'] %}
+            <div class="platform_card">
+                <ul>
+                    <li><img class="platform_logo" src="{{ gamertag[0] }}"></li>
+                    <li style="margin: 17px auto">{{ gamertag[2] }}</li>
+                    <li style="float: right; margin: 17px">{{ gamertag[1] }}</li>
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

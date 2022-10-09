@@ -14,6 +14,7 @@ body {
     body {
         background-image: url("../images/mobile_background.png");
         background-size: cover;
+        background-position: top, center;
     }
 }
 
@@ -173,8 +174,8 @@ h3, p {
     font-weight: bold;
 }
 
-.reddit-card {
-    max-width: 330px;
+.card {
+    max-width: 350px;
     margin: 10px auto;
     padding: 10px;
     background-color: #242424;
@@ -205,6 +206,8 @@ footer {
     text-align: center;
     padding: 15px 15px 15px 15px;
     font-size: 10px;
+    position: fixed;
+    bottom: 0;
 }
 
 @media (min-width: 576px) {

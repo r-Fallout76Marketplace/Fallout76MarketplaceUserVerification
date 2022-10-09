@@ -6,21 +6,25 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/gt_style.css') }}">
 {% endblock %}
 
-{% block card_title %}{{ platform }} GamerTag Verification{% endblock %}
 {% block content %}
-    <p>Enter your {{ platform }} GamerTag.</p>
-    {% if platform == "XBOX" %}
-        <p style="color: red;">Please enter XBOX 360 compatible gamertag.
-            It does not contain the # symbol and only consist of english letters, numbers, and spaces.</p>
-    {% endif %}
-    {% if warning_message|length > 0 %}
-        <p style="color: red;">{{ warning_message }}</p>
-    {% endif %}
-    <form action="/user_verification/gamertag" method="POST">
-        <div class="gamertag-input">
-            <label for="gamertag">GamerTag: </label>
-            <input id="gamertag" type="text" name="gamertag" placeholder="Enter the GamerTag" required>
+    <div class="card">
+        <div class="title_bar">
+            <h4 style="color: black;">GamerTag Verification</h4>
         </div>
-        <input id="next_btn" type="submit" value="Next">
-    </form>
+        <p>Enter your {{ platform }} GamerTag.</p>
+        {% if platform == "XBOX" %}
+            <p style="color: red;">Please enter XBOX 360 compatible GamerTag.
+                It does not contain the # symbol and only consist of english letters, numbers, and spaces.</p>
+        {% endif %}
+        {% if warning_message|length > 0 %}
+            <p style="color: red;">{{ warning_message }}</p>
+        {% endif %}
+        <form action="/user_verification/gamertag" method="POST">
+            <div class="gamertag-input">
+                <label for="gamertag">GamerTag: </label>
+                <input id="gamertag" type="text" name="gamertag" placeholder="Enter the GamerTag" required>
+            </div>
+            <input id="next_btn" type="submit" value="Next">
+        </form>
+    </div>
 {% endblock %}

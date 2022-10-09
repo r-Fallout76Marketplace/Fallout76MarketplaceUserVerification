@@ -1,0 +1,60 @@
+.profile_pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    margin: auto auto -50px auto;
+    display: block;
+}
+
+.profile_pic_menu {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    display: block;
+    margin: auto;
+}
+
+
+.platform_logo {
+    width: 30px;
+    height: 30px;
+    margin: 10px 10px auto;
+}
+
+.platform_card {
+    background-color: black;
+    height: 50px;
+    border-radius: 10px;
+    display: inline-block;
+    min-width: 350px;
+    margin: 7px auto;
+    padding-bottom: 7px;
+    padding-top: 7px;
+}
+
+.platform_card > ul {
+    list-style-type: none;
+    overflow: auto;
+    padding: 0;
+}
+
+.platform_card > ul > li {
+    display: inline-block;
+    float: left;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    border-radius: 10px;
+}
+
+.grid-item {
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+}

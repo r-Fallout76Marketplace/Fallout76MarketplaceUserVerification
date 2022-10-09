@@ -1,13 +1,13 @@
-.reddit-card > form > ul {
+.card > form > ul {
     padding: 10px;
 }
 
-.reddit-card > form > ul > li {
+.card > form > ul > li {
     padding: 20px;
     list-style-type: none;
 }
 
-.reddit-card > form > ul > li:hover {
+.card > form > ul > li:hover {
     background-color: #D9AF2F;
     color: black;
 }
