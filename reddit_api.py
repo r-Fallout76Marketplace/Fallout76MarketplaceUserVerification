@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from os import getenv
 from urllib.parse import urlsplit, urljoin
 
@@ -62,16 +63,15 @@ def get_username():
 
 
 def display_stats(stat: int | float) -> str:
+    magnitude = 0
     if stat < 1_000:
         pretty_stat = stat
         return f"{pretty_stat}"
-    elif stat < 1_000_000:
-        pretty_stat = stat / 1_000
-        unit = "K"
-    else:
-        pretty_stat = stat / 1_000_000
-        unit = "M"
-    return f"{pretty_stat:.2}{unit}"
+    elif stat > 10_000:
+        while abs(stat) >= 1000:
+            magnitude += 1
+            stat /= 1000.0
+    return f"{stat:.2f}{['', 'K', 'M', 'G', 'T', 'P'][magnitude]}"
 
 
 def check_if_courier(username):
@@ -108,15 +108,18 @@ def get_trading_karma(username):
     if not flair_text:
         return 0
     else:
-        return flair_text.split(' ')[-1]
+        if res := re.search(r"(?<=: )\d+\b", flair_text):
+            return res.group()
+        else:
+            return flair_text.split(' ')[-1]
 
 
 def get_reddit_profile_info(user_name):
     reddit_profile_info = requests.get(f"https://www.reddit.com/user/{user_name}/about.json",
                                        headers={'User-agent': 'Fallout76MarketplaceUserVerification v0.0.1'}).json()
 
-    if reddit_profile_info['data'].get("over_18"):
-        profile_pic_uri = "https://avatarfiles.alphacoders.com/917/91786.jpg"
+    if reddit_profile_info['data']['subreddit'].get("over_18"):
+        profile_pic_uri = "/static/images/76_logo.png"
     else:
         profile_pic_uri = reddit_profile_info['data'].get('icon_img', "https://avatarfiles.alphacoders.com/917/91786.jpg")
     reddit_karma = display_stats(reddit_profile_info['data'].get('total_karma'))

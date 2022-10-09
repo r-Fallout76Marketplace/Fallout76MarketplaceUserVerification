@@ -23,9 +23,13 @@
 {% endblock %}
 
 {% block content %}
-    <img class="profile_pic" src="{{ profile_info['profile_pic_uri'] }}" alt="https://avatarfiles.alphacoders.com/917/91786.jpg">
+    <img class="profile_pic" src="{{ profile_info['profile_pic_uri'] }}">
     <div class="card">
-        <p style="padding-top: 40px; text-align: center; font-weight: bold">u/{{ profile_info['display_name'] }}</p>
+        <p style="padding-top: 40px; text-align: center; font-weight: bold">
+            <a style="text-decoration:none;" href={{ "https://www.reddit.com/user/{}".format(profile_info['display_name']) }}>
+                u/{{ profile_info['display_name'] }}
+            </a>
+        </p>
         <div class="grid-container">
             <div class="grid-item" style="background-color: #325886;">Trading Karma: {{ profile_info['trading_karma'] }}</div>
             <div class="grid-item" style="background-color: #FF4300;">Reddit Karma: {{ profile_info['reddit_karma'] }}</div>
@@ -42,8 +46,8 @@
             <div class="platform_card">
                 <ul>
                     <li><img class="platform_logo" src="{{ gamertag[0] }}"></li>
-                    <li style="margin: 17px auto">{{ gamertag[2] }}</li>
-                    <li style="float: right; margin: 17px">{{ gamertag[1] }}</li>
+                    <li style="margin: 16px auto">{{ gamertag[2] }}</li>
+                    <li style="float: right; margin: 16px">{{ gamertag[1] }}</li>
                 </ul>
             </div>
         {% endfor %}
