@@ -12,7 +12,7 @@ body {
 
 @media (min-width: 0px) {
     body {
-        background-image: url("../images/mobile_background.png");
+        background-image: url("../images/mobile_background.webp");
         background-size: cover;
         background-position: top, center;
     }
@@ -21,7 +21,7 @@ body {
 
 @media (min-width: 1024px) {
     body {
-        background-image: url("../images/background.jpg");
+        background-image: url("../images/background.webp");
         background-repeat: no-repeat;
         background-size: auto;
         background-position: top, center;
@@ -190,7 +190,7 @@ h3, p {
     font-weight: bold;
     font-size: 16px;
     padding: 15px 15px 15px 65px;
-    background-image: url("../images/snoo.png");
+    background-image: url("../images/snoo.webp");
     background-repeat: no-repeat;
     background-size: 40px;
     background-position: center left;

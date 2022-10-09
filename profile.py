@@ -10,9 +10,9 @@ from reddit_api import get_reddit_profile_info
 
 profile = Blueprint("profile", __name__)
 
-WINDOWS_LOGO_URI = "https://pnggrid.com/wp-content/uploads/2021/06/Windows-11-Icon-Logo.png"
-XBOX_LOGO_URI = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Xbox_one_logo.svg/1024px-Xbox_one_logo.svg.png"
-PLAYSTATION_LOGO_URI = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Playstation_logo_colour.svg/1009px-Playstation_logo_colour.svg.png"
+WINDOWS_LOGO_URI = "/static/images/windows.webp"
+XBOX_LOGO_URI = "/static/images/xbox_logo.webp"
+PLAYSTATION_LOGO_URI = "/static/images/playstation_logo.webp"
 
 
 @profile.route('/<user_name>', methods=['GET'])
