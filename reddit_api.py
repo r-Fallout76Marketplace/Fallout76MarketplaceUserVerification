@@ -67,7 +67,7 @@ def display_stats(stat: int | float) -> str:
     if stat < 1_000:
         pretty_stat = stat
         return f"{pretty_stat}"
-    elif stat > 10_000:
+    else:
         while abs(stat) >= 1000:
             magnitude += 1
             stat /= 1000.0
