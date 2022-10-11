@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Bad Script');
+@import url("https://fonts.googleapis.com/css?family=Bad Script");
 
 * {
     margin: 0;
@@ -8,6 +8,7 @@
 
 body {
     min-height: 1080px;
+    background-color: #1F1F1F;
 }
 
 @media (min-width: 0px) {
