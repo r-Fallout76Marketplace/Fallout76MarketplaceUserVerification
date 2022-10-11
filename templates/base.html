@@ -35,7 +35,9 @@
 
 <footer>
     <p>
-        <script>document.write(new Date().getFullYear().toString())</script>
+        <span id="copyright_year">
+            <script>document.getElementById('copyright_year').appendChild(document.createTextNode(new Date().getFullYear()))</script>
+        </span>
         r/Fallout76Marketplace. Fallout series, Fallout 76, and all the content are property of Betheda/Zenimax Media Inc.
     </p>
 </footer>
