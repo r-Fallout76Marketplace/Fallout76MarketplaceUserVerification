@@ -75,18 +75,9 @@ def display_stats(stat: int | float) -> str:
 
 
 def check_if_courier(username):
-    reddit = praw.Reddit(
-        client_id=getenv('PRAW_CLIENT_ID'),
-        client_secret=getenv('PRAW_CLIENT_SECRET'),
-        password=getenv('PRAW_PASSWORD'),
-        user_agent="Fallout76MarketplaceUserVerification v0.0.1",
-        username=getenv('PRAW_USERNAME'),
-    )
-
-    subreddit = reddit.subreddit("Fallout76Marketplace")
-    wiki = subreddit.wiki["custom_bot_config/courier_list"]
-    yaml_format = yaml.safe_load(wiki.content_md)
-    courier_list = [x.lower() for x in yaml_format['couriers']]
+    with open("couriers.yaml", 'r') as fp:
+        courier_list = yaml.safe_load(fp)
+        courier_list = courier_list.get('couriers', [])
     if username.lower() in courier_list:
         return True
     else:
