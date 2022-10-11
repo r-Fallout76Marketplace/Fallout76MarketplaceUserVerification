@@ -1,6 +1,7 @@
 .profile_pic {
     width: 100px;
     height: 100px;
+    object-fit: cover;
     border-radius: 50px;
     margin: 10px auto -50px auto;
     display: block;
@@ -10,6 +11,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50px;
+    object-fit: cover;
     display: block;
     margin: auto;
 }
