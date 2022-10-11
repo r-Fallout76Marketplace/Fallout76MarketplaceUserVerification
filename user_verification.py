@@ -7,7 +7,7 @@ import requests
 from deta import Deta
 from flask import render_template, Blueprint, request, session, redirect, url_for
 from psnawp_api import PSNAWP
-from psnawp_api.core.psnawp_exceptions import PSNAWPNotFound, PSNAWPAuthenticationError
+from psnawp_api.core.psnawp_exceptions import PSNAWPNotFound, PSNAWPAuthenticationError, PSNAWPForbidden
 
 user_verification = Blueprint("user_verification", __name__)
 
@@ -88,6 +88,8 @@ def get_gamer_tag():
                 return render_template("verification_code.html", platform=platform, warning_message="")
             except PSNAWPNotFound:
                 raise ValueError("Could not find the GamerTag. Please check the spelling.")
+            except PSNAWPForbidden:
+                raise ValueError("Could not send the message because you have blocked the bot account.")
             except PSNAWPAuthenticationError:
                 raise ValueError("NPSSO Code Expired. Please message moderators.")
         else:
