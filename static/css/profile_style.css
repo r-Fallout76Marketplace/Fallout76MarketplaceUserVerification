@@ -2,7 +2,7 @@
     width: 100px;
     height: 100px;
     border-radius: 50px;
-    margin: auto auto -50px auto;
+    margin: 10px auto -50px auto;
     display: block;
 }
 
@@ -27,9 +27,9 @@
     border-radius: 10px;
     display: inline-block;
     min-width: 350px;
-    margin: 7px auto;
-    padding-bottom: 7px;
-    padding-top: 7px;
+    margin: 10px auto;
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 
 .platform_card > ul {
