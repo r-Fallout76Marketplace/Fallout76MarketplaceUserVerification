@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block css_link %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/platform_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gt_style.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="title_bar">
+            <h4 style="color: black;">GamerTag Verification</h4>
+        </div>
+        <p>Enter your PC GamerTag.</p>
+        <form method="post" action="{{ url_for("profile.update_pc_gamer_tag", user_name=user_name) }}">
+            <div class="gamertag-input">
+                <label for="gamertag">GamerTag: </label>
+                <input id="gamertag" type="text" name="gamertag" placeholder="Enter the GamerTag" required>
+            </div>
+            <input id="next_btn" type="submit" value="Next">
+        </form>
+    </div>
+{% endblock %}

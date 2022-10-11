@@ -15,6 +15,7 @@
         <li><a class="menu__item" href="{{ url_for('profile.user_profile', user_name=username) }}">u/{{ profile_info['display_name'] }}</a></li>
         {% if profile_info['is_own_profile'] %}
             <li><a class="menu__item" href="{{ url_for('profile.update_user_info') }}">Refresh data</a></li>
+            <li><a class="menu__item" href="{{ url_for('profile.edit_pc_gamer_tag', user_name=profile_info['display_name']) }}">Edit PC GamerTag</a></li>
         {% endif %}
         <li><a class="menu__item" href="{{ url_for('profile.log_out_user') }}">Log Out</a></li>
     {% else %}

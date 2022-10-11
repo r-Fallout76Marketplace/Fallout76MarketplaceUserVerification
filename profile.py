@@ -2,17 +2,36 @@ from os import getenv
 
 import requests
 from deta import Deta
-from flask import Blueprint, render_template, redirect, session, url_for
+from flask import Blueprint, render_template, redirect, session, url_for, request
 from psnawp_api import PSNAWP
 from psnawp_api.core.psnawp_exceptions import PSNAWPNotFound, PSNAWPAuthenticationError
 
 from reddit_api import get_reddit_profile_info
+from user_verification import add_gamer_tag_to_db
 
 profile = Blueprint("profile", __name__)
 
 WINDOWS_LOGO_URI = "/static/images/windows.webp"
 XBOX_LOGO_URI = "/static/images/xbox_logo.webp"
 PLAYSTATION_LOGO_URI = "/static/images/playstation_logo.webp"
+
+
+@profile.route('/<user_name>/pc/update/', methods=["POST"])
+def update_pc_gamer_tag(user_name: str):
+    gamer_tag = request.form.get('gamertag')
+    session['gt'] = gamer_tag
+    session['gt_id'] = "0"
+    session['platform'] = "Fallout 76"
+    add_gamer_tag_to_db(verification_complete=True)
+    session.pop('gt', None)
+    session.pop('gt_id', None)
+    session.pop('platform', None)
+    return redirect(url_for("profile.user_profile", user_name=session['username']))
+
+
+@profile.route('/<user_name>/pc/edit/')
+def edit_pc_gamer_tag(user_name: str):
+    return render_template("edit_pc_gamertag.html", user_name=user_name)
 
 
 @profile.route('/<user_name>', methods=['GET'])
