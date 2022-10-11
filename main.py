@@ -20,9 +20,10 @@ app.permanent_session_lifetime = timedelta(days=7)
 def reddit_oauth_callback():
     if error := request.args.get('error'):
         if error == "access_denied":
-            return redirect("https://http.cat/403")
+            return render_template("error.html", error_title="Access Denied", error_message="We cannot verify your identity from Reddit. "
+                                                                                            "Please allow access in order to proceed.")
         else:
-            return error
+            return render_template("error.html", error_title=error, error_message=error)
     else:
         session['code'] = request.args.get('code')
         username = reddit_api.get_username().lower()
@@ -50,7 +51,8 @@ def reddit_oauth_callback():
             fallout_76_db.put(updated_data, username.lower())
             return redirect(url_for("profile.user_profile", user_name=username))
         else:
-            return redirect("https://http.cat/500")
+            return render_template("error.html", error_title="Internal Server Error", error_message="Internal Server Error."
+                                                                                                    "Please contact r/Fallout76Marketplace mods")
 
 
 @app.route('/reddit_oauth', methods=["POST"])

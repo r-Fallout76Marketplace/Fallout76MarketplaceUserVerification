@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block css_link %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="title_bar">
+            <h4 style="color: black;">{{ error_title }}</h4>
+        </div>
+        <p>{{ error_message }}</p>
+    </div>
+{% endblock %}

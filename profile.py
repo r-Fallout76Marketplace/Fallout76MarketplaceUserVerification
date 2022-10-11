@@ -23,7 +23,9 @@ def user_profile(user_name: str):
     fetch_res = fallout_76_db.fetch({"key": user_name})
     # If user doesn't exist in db
     if fetch_res.count == 0 or not fetch_res.items[0].get("verification_complete"):
-        return redirect("https://http.cat/404")
+        return render_template("error.html", error_title=f"Could not find {user_name}", error_message=f"The user does not exist or has not fully completed "
+                                                                                                      f"verification process. If you are {user_name}, please "
+                                                                                                      f"sign up again and finish the process.")
 
     profile_info = get_reddit_profile_info(user_name)
     pc_gt = (WINDOWS_LOGO_URI, fetch_res.items[0].get("Fallout 76"), "PC")
