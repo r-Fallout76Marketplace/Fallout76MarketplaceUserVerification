@@ -22,7 +22,7 @@ def user_profile(user_name: str):
     fallout_76_db = deta.Base("fallout_76_db")
     fetch_res = fallout_76_db.fetch({"key": user_name})
     # If user doesn't exist in db
-    if fetch_res.count == 0:
+    if fetch_res.count == 0 or not fetch_res.items[0].get("verification_complete"):
         return redirect("https://http.cat/404")
 
     profile_info = get_reddit_profile_info(user_name)
