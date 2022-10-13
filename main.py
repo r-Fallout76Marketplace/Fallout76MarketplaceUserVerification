@@ -1,6 +1,7 @@
 from contextlib import suppress
 from datetime import timedelta
 from os import getenv
+from time import time
 
 from deta import Deta
 from flask import Flask, render_template, redirect, request, session, url_for
@@ -33,13 +34,15 @@ def reddit_oauth_callback():
         # If user doesn't exist in db
         if fetch_res.count == 0:
             fallout_76_db.insert({"key": username,
+                                  "created_at": time(),
                                   "code": session.get('code'),
                                   "refresh_token": session.get('refresh_token'),
                                   "verification_complete": False})
             return render_template("platform.html", enable_warning=False)
         # If user exists but verification is not complete
         elif not fetch_res.items[0].get("verification_complete"):
-            fallout_76_db.put({"code": session.get('code'),
+            fallout_76_db.put({"created_at": time(),
+                               "code": session.get('code'),
                                "refresh_token": session.get('refresh_token'),
                                "verification_complete": False}, username)
             return render_template("platform.html", enable_warning=False)

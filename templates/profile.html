@@ -32,7 +32,11 @@
             </a>
         </p>
         <div class="grid-container">
-            <div class="grid-item" style="background-color: #325886;">Trading Karma: {{ profile_info['trading_karma'] }}</div>
+            {% if profile_info['trading_karma'] == "BLACKLISTED" %}
+                <div class="grid-item" style="background-color: black;">{{ profile_info['trading_karma'] }}</div>
+            {% else %}
+                <div class="grid-item" style="background-color: #325886;">Trading Karma: {{ profile_info['trading_karma'] }}</div>
+            {% endif %}
             <div class="grid-item" style="background-color: #FF4300;">Reddit Karma: {{ profile_info['reddit_karma'] }}</div>
         </div>
         {% if profile_info['is_courier'] %}
