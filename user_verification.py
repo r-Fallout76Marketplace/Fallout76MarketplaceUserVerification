@@ -37,9 +37,8 @@ def send_message_xbox(xuid):
 def add_gamer_tag_to_db(*, verification_complete):
     deta = Deta(getenv('PROJECT_KEY'))
     fallout_76_db = deta.Base("fallout_76_db")
-    fetch_res = fallout_76_db.fetch({"key": session['username']}).items[0]
-    updated_data = {**fetch_res, "verification_complete": verification_complete, session['platform']: session['gt'],
-                    f"{session['platform']}_ID": session['gt_id']}
+    updated_data = fallout_76_db.fetch({"key": session['username']}).items[0]
+    updated_data |= {"verification_complete": verification_complete, session['platform']: session['gt'], f"{session['platform']}_ID": session['gt_id']}
     fallout_76_db.put(updated_data, session['username'])
 
 

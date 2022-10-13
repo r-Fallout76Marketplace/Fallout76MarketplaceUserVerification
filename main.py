@@ -49,8 +49,7 @@ def reddit_oauth_callback():
         # If user exists and verification is complete
         elif fetch_res.items[0].get("verification_complete"):
             updated_data = fetch_res.items[0]
-            updated_data["code"] = session.get('code')
-            updated_data["refresh_token"] = session.get('refresh_token')
+            updated_data |= {"code": session.get('code'), "refresh_token": session.get('refresh_token')}
             fallout_76_db.put(updated_data, username.lower())
             return redirect(url_for("profile.user_profile", user_name=username))
         else:
