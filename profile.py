@@ -37,7 +37,7 @@ def edit_pc_gamer_tag(user_name: str):
 @profile.route('/<user_name>', methods=['GET'])
 def user_profile(user_name: str):
     user_name = user_name.lower()
-    deta = Deta(getenv('PROJECT_KEY'))
+    deta = Deta(getenv('DETA_PROJECT_KEY'))
     fallout_76_db = deta.Base("fallout_76_db")
     fetch_res = fallout_76_db.fetch({"key": user_name})
     # If user doesn't exist in db
@@ -71,7 +71,7 @@ def xuid_to_gamer_tag(xuid):
 @profile.route('/update_info')
 def update_user_info():
     if session.get('username'):
-        deta = Deta(getenv('PROJECT_KEY'))
+        deta = Deta(getenv('DETA_PROJECT_KEY'))
         fallout_76_db = deta.Base("fallout_76_db")
         fetch_res = fallout_76_db.fetch({"key": session.get('username')}).items[0]
 

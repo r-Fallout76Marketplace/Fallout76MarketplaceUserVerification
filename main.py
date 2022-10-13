@@ -28,7 +28,7 @@ def reddit_oauth_callback():
     else:
         session['code'] = request.args.get('code')
         username = reddit_api.get_username().lower()
-        deta = Deta(getenv('PROJECT_KEY'))
+        deta = Deta(getenv('DETA_PROJECT_KEY'))
         fallout_76_db = deta.Base("fallout_76_db")
         fetch_res = fallout_76_db.fetch({"key": username})
         # If user doesn't exist in db
@@ -74,7 +74,7 @@ def index():
     # and the verification is completed
     with suppress(KeyError, ValueError):
         username = reddit_api.get_username()
-        deta = Deta(getenv('PROJECT_KEY'))
+        deta = Deta(getenv('DETA_PROJECT_KEY'))
         fallout_76_db = deta.Base("fallout_76_db")
         fetch_res = fallout_76_db.fetch({"key": session['username']})
         if fetch_res.count > 0 and fetch_res.items[0].get("verification_complete"):
