@@ -72,9 +72,14 @@ def reddit_oauth():
 @app.route('/')
 def index():
     # If user is already logged in then redirect to profile page.
+    # and the verification is completed
     with suppress(KeyError, ValueError):
         username = reddit_api.get_username()
-        return redirect(url_for("profile.user_profile", user_name=username))
+        deta = Deta(getenv('PROJECT_KEY'))
+        fallout_76_db = deta.Base("fallout_76_db")
+        fetch_res = fallout_76_db.fetch({"key": session['username']})
+        if fetch_res.count > 0 and fetch_res.items[0].get("verification_complete"):
+            return redirect(url_for("profile.user_profile", user_name=username))
     return render_template('login.html')
 
 
