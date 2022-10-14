@@ -32,8 +32,8 @@
             </a>
         </p>
         <div class="grid-container">
-            {% if profile_info['trading_karma'] == "BLACKLISTED" %}
-                <div class="grid-item" style="background-color: black;">{{ profile_info['trading_karma'] }}</div>
+            {% if profile_info['trading_karma'] == "BLACKLISTED" or profile_info['is_blacklisted'] %}
+                <div class="grid-item" style="background-color: black;">BLACKLISTED</div>
             {% else %}
                 <div class="grid-item" style="background-color: #325886;">Trading Karma: {{ profile_info['trading_karma'] }}</div>
             {% endif %}

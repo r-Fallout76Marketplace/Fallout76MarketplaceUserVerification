@@ -4,10 +4,11 @@ from os import getenv
 from random import randint
 
 import requests
-from deta import Deta
 from flask import render_template, Blueprint, request, session, redirect, url_for
 from psnawp_api import PSNAWP
 from psnawp_api.core.psnawp_exceptions import PSNAWPNotFound, PSNAWPAuthenticationError, PSNAWPForbidden
+
+import deta_api
 
 user_verification = Blueprint("user_verification", __name__)
 
@@ -15,6 +16,7 @@ user_verification = Blueprint("user_verification", __name__)
 def get_xuid(gamer_tag):
     auth_headers = {"X-Authorization": getenv("XBOX_API")}
     params = {'gt': gamer_tag}
+    # Sometimes XBOX api returns empty results so have to try twice
     for i in range(2):
         with suppress(requests.JSONDecodeError, KeyError):
             resp = requests.get('https://xbl.io/api/v2/friends/search', headers=auth_headers, params=params)
@@ -35,11 +37,9 @@ def send_message_xbox(xuid):
 
 
 def add_gamer_tag_to_db(*, verification_complete):
-    deta = Deta(getenv('DETA_PROJECT_KEY'))
-    fallout_76_db = deta.Base("fallout_76_db")
-    updated_data = fallout_76_db.fetch({"key": session['username']}).items[0]
+    updated_data = deta_api.get_item(session['username']).items[0]
     updated_data |= {"verification_complete": verification_complete, session['platform']: session['gt'], f"{session['platform']}_ID": session['gt_id']}
-    fallout_76_db.put(updated_data, session['username'])
+    deta_api.update_item(updated_data, session['username'])
 
 
 @user_verification.route('/user_profile', methods=['POST'])
