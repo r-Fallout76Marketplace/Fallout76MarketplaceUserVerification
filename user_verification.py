@@ -6,7 +6,7 @@ from random import randint
 import requests
 from flask import render_template, Blueprint, request, session, redirect, url_for
 from psnawp_api import PSNAWP
-from psnawp_api.core.psnawp_exceptions import PSNAWPNotFound, PSNAWPAuthenticationError, PSNAWPForbidden
+from psnawp_api.core.psnawp_exceptions import PSNAWPNotFound, PSNAWPAuthenticationError, PSNAWPForbidden, PSNAWPBadRequest
 
 import deta_api
 
@@ -85,7 +85,7 @@ def get_gamer_tag():
                 session['gt'] = user.online_id
                 session['gt_id'] = user.account_id
                 return render_template("verification_code.html", platform=platform, warning_message="")
-            except PSNAWPNotFound:
+            except (PSNAWPNotFound, PSNAWPBadRequest):
                 raise ValueError("Could not find the GamerTag. Please check the spelling.")
             except PSNAWPForbidden:
                 raise ValueError("Could not send the message because you have blocked the bot account.")
