@@ -1,4 +1,5 @@
 import json
+from contextlib import suppress
 from os import getenv
 from random import randint
 
@@ -13,6 +14,19 @@ from log_gen import create_logger
 
 user_verification = Blueprint("user_verification", __name__)
 logger = create_logger("user_verification")
+
+
+def send_message_to_discord(msg):
+    """
+    Sends the message to discord channel via webhook url.
+
+    :param msg: message content.
+    """
+
+    webhook = "https://discord.com/api/webhooks/809882605759496222/otF8uxSMGIp_M5y-NfkwDbbEzScMYEfa9pqjr-tlqhLAM9CnQdza6TJGZRQ3N1G857Xq"  # getenv("MOD_CHANNEL_WEBHOOK")
+    data = {"content": msg, "username": "User Verification"}
+    with suppress(Exception):
+        requests.post(webhook, data=json.dumps(data), headers={"Content-Type": "application/json"})
 
 
 def add_gamer_tag_to_db(*, verification_complete):
@@ -88,6 +102,7 @@ def send_message_psnid(gamer_tag):
     except PSNAWPForbidden as forbidden:
         raise PSNAWPException("Could not send the message because you have blocked the bot account.") from forbidden
     except PSNAWPAuthenticationError as auth_error:
+        send_message_to_discord("NPSSO code for user verification has expired.")
         raise PSNAWPException("NPSSO Code Expired. Please message moderators.") from auth_error
 
 
