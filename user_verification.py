@@ -16,6 +16,12 @@ user_verification = Blueprint("user_verification", __name__)
 logger = create_logger("user_verification")
 
 
+@user_verification.errorhandler(500)
+def error_internal():
+    return render_template("error.html", error_title="Error 500: Internal Error",
+                           error_message="This might be happening if you are visiting this link directly. Please visit https://fallout76marketplace.deta.dev.")
+
+
 def send_message_to_discord(msg):
     """
     Sends the message to discord channel via webhook url.

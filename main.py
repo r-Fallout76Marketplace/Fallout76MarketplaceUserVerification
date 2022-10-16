@@ -34,7 +34,7 @@ def reddit_oauth_callback():
         session['code'] = request.args.get('code')
         username = reddit_api.get_username(code=session['code']).lower()
         fetch_res = deta_api.get_item(username)
-        logger.info(f"{username}, {session['code']} {fetch_res}")
+        logger.info(f"{username}, {session['code']} {fetch_res.items}")
         # If user doesn't exist in db
         if fetch_res.count == 0:
             deta_api.insert_item({"key": username,
