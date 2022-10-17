@@ -3,6 +3,9 @@ test.env
 .idea
 .deta
 fo76_user_ver
+fallout.wsgi
+fallout_wsgi.py
+logs
 
 ### Python template
 # Byte-compiled / optimized / DLL files
