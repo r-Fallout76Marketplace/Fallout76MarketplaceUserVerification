@@ -3,6 +3,7 @@ from datetime import timedelta
 from os import getenv
 from time import time
 
+from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, request, session, url_for
 from requests import HTTPError
 
@@ -12,6 +13,7 @@ from log_gen import create_logger
 from profile import profile
 from user_verification import user_verification
 
+load_dotenv('config.env')
 app = Flask(__name__)
 app.register_blueprint(user_verification, url_prefix="/user_verification")
 app.register_blueprint(profile, url_prefix="/user")
