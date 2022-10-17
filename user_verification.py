@@ -80,7 +80,8 @@ def get_xuid(gamer_tag):
         for i in range(2):
             resp = requests.get('https://xbl.io/api/v2/friends/search', headers=auth_headers, params=params)
             json_resp = resp.json()
-            print(json_resp)
+            if json_resp.get('code') == 28:
+                raise HTTPError(json_resp.get('description'))
             resp.raise_for_status()
             profile_list = json_resp.get('profileUsers')[0]
             return profile_list['settings'][2]['value'], profile_list['id']
