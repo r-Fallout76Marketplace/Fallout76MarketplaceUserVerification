@@ -11,15 +11,10 @@ from requests import HTTPError
 
 import deta_api
 from log_gen import create_logger
+from trello_api import search_multiple_items_blacklist
 
 user_verification = Blueprint("user_verification", __name__)
 logger = create_logger("user_verification")
-
-
-@user_verification.errorhandler(500)
-def error_internal():
-    return render_template("error.html", error_title="Error 500: Internal Error",
-                           error_message="This might be happening if you are visiting this link directly. Please visit https://fallout76marketplace.deta.dev.")
 
 
 def send_message_to_discord(msg):
@@ -29,21 +24,36 @@ def send_message_to_discord(msg):
     :param msg: message content.
     """
 
-    webhook = "https://discord.com/api/webhooks/809882605759496222/otF8uxSMGIp_M5y-NfkwDbbEzScMYEfa9pqjr-tlqhLAM9CnQdza6TJGZRQ3N1G857Xq"  # getenv("MOD_CHANNEL_WEBHOOK")
+    webhook = getenv("MOD_CHANNEL_WEBHOOK")
     data = {"content": msg, "username": "User Verification"}
     with suppress(Exception):
         requests.post(webhook, data=json.dumps(data), headers={"Content-Type": "application/json"})
 
 
-def add_gamer_tag_to_db(*, verification_complete):
+def add_gamer_tag_to_db(*, verification_complete, check_blacklist: bool = False):
     updated_data = deta_api.get_item(session['username']).items[0]
-    updated_data |= {"verification_complete": verification_complete, session['platform']: session['gt'], f"{session['platform']}_ID": session['gt_id']}
+
+    is_blacklisted = False
+    if check_blacklist:
+        result = search_multiple_items_blacklist([session['username'],
+                                                  updated_data.get('Fallout 76'),
+                                                  updated_data.get('Fallout 76_ID'),
+                                                  updated_data.get('PlayStation'),
+                                                  updated_data.get('PlayStation_ID'),
+                                                  updated_data.get('XBOX'),
+                                                  updated_data.get('XBOX_ID')])
+        if result:
+            is_blacklisted = True
+            send_message_to_discord(f"Blacklisted u/{session['username']} registered. See https://fallout76marketplace.deta.dev/user/{session['username']}")
+
+    updated_data |= {"verification_complete": verification_complete, session['platform']: session['gt'], f"{session['platform']}_ID": session['gt_id'],
+                     "is_blacklisted": is_blacklisted}
     deta_api.update_item(updated_data, session['username'])
 
 
 @user_verification.route('/user_profile', methods=['POST'])
 def redirect_to_profile():
-    add_gamer_tag_to_db(verification_complete=True)
+    add_gamer_tag_to_db(verification_complete=True, check_blacklist=True)
     username = session['username']
     refresh_token = session['refresh_token']
     session.clear()
