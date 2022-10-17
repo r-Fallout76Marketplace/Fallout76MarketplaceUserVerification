@@ -13,10 +13,10 @@ from log_gen import create_logger
 from profile import profile
 from user_verification import user_verification
 
-load_dotenv('config.env')
 app = Flask(__name__)
 app.register_blueprint(user_verification, url_prefix="/user_verification")
 app.register_blueprint(profile, url_prefix="/user")
+load_dotenv('config.env')
 app.secret_key = getenv('FLASK_SECRET_KEY')
 app.permanent_session_lifetime = timedelta(days=7)
 logger = create_logger(__name__)
