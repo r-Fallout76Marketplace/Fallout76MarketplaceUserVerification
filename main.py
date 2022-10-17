@@ -3,6 +3,7 @@ from datetime import timedelta
 from os import getenv
 from time import time
 
+from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, request, session, url_for
 from requests import HTTPError
 
@@ -15,6 +16,7 @@ from user_verification import user_verification
 app = Flask(__name__)
 app.register_blueprint(user_verification, url_prefix="/user_verification")
 app.register_blueprint(profile, url_prefix="/user")
+load_dotenv('config.env')
 app.secret_key = getenv('FLASK_SECRET_KEY')
 app.permanent_session_lifetime = timedelta(days=7)
 logger = create_logger(__name__)
