@@ -78,7 +78,6 @@ def search_multiple_items_blacklist(search_queries: list[Optional[str]]) -> bool
     """
     result = []
     for query in search_queries:
-        if query is not None:
-            cards = search_in_blacklist(query)
-            result.extend(cards)
+        cards = search_in_blacklist(query)
+        result.extend(cards)
     return bool(result)

@@ -35,17 +35,16 @@ def add_gamer_tag_to_db(*, verification_complete, check_blacklist: bool = False)
 
     is_blacklisted = False
     if check_blacklist:
-        result = search_multiple_items_blacklist([session['username'],
-                                                  updated_data.get('Fallout 76'),
-                                                  updated_data.get('Fallout 76_ID'),
-                                                  updated_data.get('PlayStation'),
-                                                  updated_data.get('PlayStation_ID'),
-                                                  updated_data.get('XBOX'),
-                                                  updated_data.get('XBOX_ID')])
+        user_data = [session['username'],
+                     updated_data.get('Fallout 76'),
+                     updated_data.get('PlayStation'),
+                     updated_data.get('PlayStation_ID'),
+                     updated_data.get('XBOX'),
+                     updated_data.get('XBOX_ID')]
+        result = search_multiple_items_blacklist([data for data in user_data if data is not None])
         if result:
             is_blacklisted = True
             send_message_to_discord(f"Blacklisted u/{session['username']} registered. See https://fallout76marketplace.deta.dev/user/{session['username']}")
-
     updated_data |= {"verification_complete": verification_complete, session['platform']: session['gt'], f"{session['platform']}_ID": session['gt_id'],
                      "is_blacklisted": is_blacklisted}
     deta_api.update_item(updated_data, session['username'])
