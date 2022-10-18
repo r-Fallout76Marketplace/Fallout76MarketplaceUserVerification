@@ -1,9 +1,11 @@
 import re
 from os import getenv
+from typing import TYPE_CHECKING
 
 from trello import TrelloClient, Card
 
-from user_verification import Platform
+if TYPE_CHECKING:
+    from user_verification import Platform
 
 REGEX_REMOVE_PARENTHESIS = re.compile(r"\(.+\)")
 REGEX_MATCH_FIELD_CONTENT = re.compile(r"(?<=:).+$", re.MULTILINE)
