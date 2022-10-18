@@ -2,6 +2,7 @@ import json
 from contextlib import suppress
 from os import getenv
 from random import randint
+from typing import NamedTuple, Optional
 
 import requests
 from flask import render_template, Blueprint, request, session, redirect, url_for
@@ -15,6 +16,11 @@ from trello_api import search_multiple_items_blacklist
 
 user_verification = Blueprint("user_verification", __name__)
 logger = create_logger("user_verification")
+
+
+class Platform(NamedTuple):
+    platform_type: str
+    value: Optional[str]
 
 
 def send_message_to_discord(msg):
@@ -35,13 +41,13 @@ def add_gamer_tag_to_db(*, verification_complete, check_blacklist: bool = False)
 
     is_blacklisted = False
     if check_blacklist:
-        user_data = [session['username'],
-                     updated_data.get('Fallout 76'),
-                     updated_data.get('PlayStation'),
-                     updated_data.get('PlayStation_ID'),
-                     updated_data.get('XBOX'),
-                     updated_data.get('XBOX_ID')]
-        result = search_multiple_items_blacklist([data for data in user_data if data is not None])
+        user_data: list[Platform] = [Platform("Reddit", session['username']),
+                                     Platform("PC", updated_data.get('Fallout 76')),
+                                     Platform("PS4", updated_data.get('PlayStation')),
+                                     Platform("PS4", updated_data.get('PlayStation_ID')),
+                                     Platform("XB1", updated_data.get('XBOX')),
+                                     Platform("XB1", updated_data.get('XBOX_ID'))]
+        result = search_multiple_items_blacklist([data for data in user_data if data.value is not None])
         if result:
             is_blacklisted = True
             send_message_to_discord(f"Blacklisted u/{session['username']} registered. See https://fallout76marketplace.com/user/{session['username']}")

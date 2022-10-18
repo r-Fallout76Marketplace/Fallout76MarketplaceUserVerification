@@ -1,8 +1,9 @@
 import re
 from os import getenv
-from typing import Optional
 
 from trello import TrelloClient, Card
+
+from user_verification import Platform
 
 REGEX_REMOVE_PARENTHESIS = re.compile(r"\(.+\)")
 REGEX_MATCH_FIELD_CONTENT = re.compile(r"(?<=:).+$", re.MULTILINE)
@@ -28,7 +29,7 @@ def is_in_description(desc: str, search_query: str):
     return False
 
 
-def filter_search_result(search_result: list[Card], search_query: str) -> list[Card]:
+def filter_search_result(search_result: list[Card], search_query: Platform) -> list[Card]:
     """
     Filters the cards that are archived, don't have the label scammer, and if query doesn't appear in the description
     :param search_result:
@@ -40,7 +41,12 @@ def filter_search_result(search_result: list[Card], search_query: str) -> list[C
         if card.closed:
             search_result.remove(card)
 
-        if not is_in_description(card.desc, search_query):
+        # Remove cards that are from other platforms
+        if search_query.platform_type != "Reddit":
+            if search_query.platform_type not in card.name.upper():
+                search_result.remove(card)
+
+        if not is_in_description(card.desc, search_query.value):
             search_result.remove(card)
 
         for label in card.labels:
@@ -51,7 +57,7 @@ def filter_search_result(search_result: list[Card], search_query: str) -> list[C
     return search_result
 
 
-def search_in_blacklist(search_query: str) -> list[Card]:
+def search_in_blacklist(search_query: Platform) -> list[Card]:
     """
     Searches in Market76 Blacklist and Fallout76Marketplace Blacklist for the search query.
 
@@ -64,12 +70,12 @@ def search_in_blacklist(search_query: str) -> list[Card]:
     )
     m76_board = trello_client.get_board("0eCDKYHr")
     fo76_board = trello_client.get_board("8oCsXC2j")
-    search_result = trello_client.search(query=search_query, board_ids=[m76_board.id, fo76_board.id], cards_limit=1000)
+    search_result = trello_client.search(query=search_query.value, board_ids=[m76_board.id, fo76_board.id], cards_limit=1000)
     search_result = filter_search_result(search_result=search_result, search_query=search_query)
     return search_result
 
 
-def search_multiple_items_blacklist(search_queries: list[Optional[str]]) -> bool:
+def search_multiple_items_blacklist(search_queries: list[Platform]) -> bool:
     """
     Checks if any item provided in search queries exist in blacklist
 
