@@ -31,7 +31,7 @@ def is_in_description(desc: str, search_query: str):
     return False
 
 
-def filter_search_result(search_result: list[Card], search_query: Platform) -> list[Card]:
+def filter_search_result(search_result: list[Card], search_query: "Platform") -> list[Card]:
     """
     Filters the cards that are archived, don't have the label scammer, and if query doesn't appear in the description
     :param search_result:
@@ -59,7 +59,7 @@ def filter_search_result(search_result: list[Card], search_query: Platform) -> l
     return search_result
 
 
-def search_in_blacklist(search_query: Platform) -> list[Card]:
+def search_in_blacklist(search_query: "Platform") -> list[Card]:
     """
     Searches in Market76 Blacklist and Fallout76Marketplace Blacklist for the search query.
 
@@ -77,7 +77,7 @@ def search_in_blacklist(search_query: Platform) -> list[Card]:
     return search_result
 
 
-def search_multiple_items_blacklist(search_queries: list[Platform]) -> bool:
+def search_multiple_items_blacklist(search_queries: list["Platform"]) -> bool:
     """
     Checks if any item provided in search queries exist in blacklist
 
