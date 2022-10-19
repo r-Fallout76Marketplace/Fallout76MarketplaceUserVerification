@@ -78,7 +78,7 @@ def verify_identity():
 
 
 def get_xuid(gamer_tag):
-    auth_headers = {"X-Authorization": getenv('XBOX_API')}
+    auth_headers = {"X-Authorization": getenv('XBOX_API'), "Content-Type": "application/json"}
     params = {'gt': gamer_tag}
     # Sometimes XBOX api returns empty results so have to try twice
     try:
@@ -96,7 +96,7 @@ def get_xuid(gamer_tag):
 
 def send_message_xbox(gamer_tag):
     gamer_tag, xuid = get_xuid(gamer_tag)
-    auth_headers = {"X-Authorization": getenv("XBOX_API")}
+    auth_headers = {"X-Authorization": getenv("XBOX_API"), "Content-Type": "application/json"}
     verification_code = randint(100000, 999999)
     session['verification_code'] = verification_code
     msg = json.dumps({"xuid": xuid, "message": f"Your verification code is {verification_code}. Please do not share this with anyone."})
