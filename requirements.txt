@@ -12,7 +12,7 @@ MarkupSafe==2.1.1
 oauthlib==3.2.1
 praw==7.6.0
 prawcore==2.3.0
-PSNAWP==1.0.2
+PSNAWP==1.0.4
 py-trello==0.18.0
 python-dateutil==2.8.2
 python-dotenv==0.21.0
