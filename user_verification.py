@@ -70,6 +70,7 @@ def redirect_to_profile():
 @user_verification.route('/verify_code', methods=['POST'])
 def verify_identity():
     verification_code = request.form.get('verification_code')[:6]
+    logger.info(f"Actual code {session['verification_code']} vs user input {verification_code}")
     if session['verification_code'] == int(verification_code):
         add_gamer_tag_to_db(verification_complete=False)
         return redirect(url_for('user_verification.platform_verification', warning_message=""))
@@ -101,6 +102,7 @@ def send_message_xbox(gamer_tag):
     verification_code = randint(100000, 999999)
     session['verification_code'] = verification_code
     msg = json.dumps({"xuid": xuid, "message": f"Your verification code is {verification_code}. Please do not share this with anyone."})
+    logger.info(f"{gamer_tag} Verification Code {verification_code}")
     try:
         resp = requests.post("https://xbl.io/api/v2/conversations", headers=auth_headers, data=msg)
         resp.raise_for_status()
@@ -120,6 +122,7 @@ def send_message_psnid(gamer_tag):
         group.send_message(f"Your verification code is {verification_code}. Please do not share this with anyone.")
         session['gt'] = user.online_id
         session['gt_id'] = user.account_id
+        logger.info(f"{user.online_id} Verification code {verification_code}")
     except (PSNAWPNotFound, PSNAWPBadRequest) as not_found:
         raise PSNAWPException("Could not find the GamerTag. Please check the spelling.") from not_found
     except PSNAWPForbidden as forbidden:
