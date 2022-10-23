@@ -85,6 +85,7 @@ def get_xuid(gamer_tag):
         for i in range(2):
             resp = requests.get('https://xbl.io/api/v2/friends/search', headers=auth_headers, params=params)
             json_resp = resp.json()
+            logger.info(json_resp)
             if json_resp.get('code') == 28:
                 raise HTTPError(json_resp.get('description'))
             resp.raise_for_status()
@@ -131,7 +132,7 @@ def send_message_psnid(gamer_tag):
 @user_verification.route('/gamertag', methods=['POST'])
 def get_gamer_tag():
     platform = session['platform']
-    gamer_tag = request.form.get('gamertag')
+    gamer_tag = request.form.get('gamertag').strip()
     logger.info(f"{platform} {gamer_tag}")
     try:
         if platform == "XBOX":
