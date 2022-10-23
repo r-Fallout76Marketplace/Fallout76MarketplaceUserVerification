@@ -58,6 +58,7 @@ def add_gamer_tag_to_db(*, verification_complete, check_blacklist: bool = False)
 
 @user_verification.route('/user_profile', methods=['POST'])
 def redirect_to_profile():
+    logger.info(f"{session['username']} accepted the agreement.")
     add_gamer_tag_to_db(verification_complete=True, check_blacklist=True)
     username = session['username']
     refresh_token = session['refresh_token']
@@ -70,7 +71,7 @@ def redirect_to_profile():
 @user_verification.route('/verify_code', methods=['POST'])
 def verify_identity():
     verification_code = request.form.get('verification_code')[:6]
-    logger.info(f"Actual code {session['verification_code']} vs user input {verification_code}")
+    logger.info(f"{session['username']} Actual code {session['verification_code']} vs user input {verification_code}")
     if session['verification_code'] == int(verification_code):
         add_gamer_tag_to_db(verification_complete=False)
         return redirect(url_for('user_verification.platform_verification', warning_message=""))
