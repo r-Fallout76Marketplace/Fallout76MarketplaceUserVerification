@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+from logging.handlers import TimedRotatingFileHandler
 
 
 def create_logger(module_name: str, level: int | str = logging.INFO) -> logging.Logger:
@@ -19,5 +20,10 @@ def create_logger(module_name: str, level: int | str = logging.INFO) -> logging.
     formatter = logging.Formatter('[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s')
     log_stream.setFormatter(formatter)
     logger.addHandler(log_stream)
+
+    file_stream = TimedRotatingFileHandler("./logs/user_verification.log", when='D', interval=1, backupCount=15)
+    file_stream.setLevel(level)
+    file_stream.setFormatter(formatter)
+    logger.addHandler(file_stream)
     logger.propagate = False
     return logger
