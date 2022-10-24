@@ -30,7 +30,7 @@ def send_message_to_discord(msg):
     :param msg: message content.
     """
 
-    webhook = getenv("MOD_CHANNEL_WEBHOOK")
+    webhook = getenv("USER_VERIFICATION_CHANNEL")
     data = {"content": msg, "username": "User Verification"}
     with suppress(Exception):
         requests.post(webhook, data=json.dumps(data), headers={"Content-Type": "application/json"})
