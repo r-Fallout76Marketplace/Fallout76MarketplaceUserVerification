@@ -45,6 +45,7 @@ def reddit_oauth_callback():
                                   "refresh_token": session.get('refresh_token'),
                                   "is_blacklisted": False,
                                   "verification_complete": False})
+            session['verification_started'] = True
             return render_template("platform.html", enable_warning=False)
         # If user exists but verification is not complete
         elif not fetch_res.items[0].get("verification_complete"):
@@ -53,6 +54,7 @@ def reddit_oauth_callback():
                                   "refresh_token": session.get('refresh_token'),
                                   "is_blacklisted": fetch_res.items[0].get("is_blacklisted"),
                                   "verification_complete": False}, username)
+            session['verification_started'] = True
             return render_template("platform.html", enable_warning=False)
         # If user exists and verification is complete
         elif fetch_res.items[0].get("verification_complete"):

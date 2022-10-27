@@ -24,6 +24,12 @@ class Platform(NamedTuple):
     value: Optional[str]
 
 
+def back_btn_or_direct_link():
+    return render_template("error.html", error_title="Error: Cannot show the page",
+                           error_message="Error: Cannot show the page because you used the back button or are visiting the url directly. This is done to "
+                                         "prevent submitting information multiple times.")
+
+
 def send_message_to_discord(msg):
     """
     Sends the message to discord channel via webhook url.
@@ -67,6 +73,8 @@ def add_gamer_tag_to_db(*, verification_complete, check_blacklist: bool = False)
 
 @user_verification.route('/user_profile', methods=['POST'])
 def redirect_to_profile():
+    if session.get('verification_started') is None:
+        return back_btn_or_direct_link()
     logger.info(f"{session['username']} accepted the agreement.")
     add_gamer_tag_to_db(verification_complete=True, check_blacklist=True)
     username = session['username']
@@ -79,6 +87,8 @@ def redirect_to_profile():
 
 @user_verification.route('/verify_code', methods=['POST'])
 def verify_identity():
+    if session.get('verification_started') is None:
+        return back_btn_or_direct_link()
     verification_code = request.form.get('verification_code')[:6]
     logger.info(f"{session['username']}, Actual code {session['verification_code']} vs user input {verification_code}")
     if session['verification_code'] == int(verification_code):
@@ -146,6 +156,8 @@ def send_message_psnid(gamer_tag):
 
 @user_verification.route('/gamertag', methods=['POST'])
 def get_gamer_tag():
+    if session.get('verification_started') is None:
+        return back_btn_or_direct_link()
     platform = session['platform']
     gamer_tag = request.form.get('gamertag').strip()
     logger.info(f"{session['username']}, {platform} {gamer_tag}")
@@ -173,6 +185,8 @@ def get_gamer_tag():
 
 @user_verification.route('/')
 def platform_verification():
+    if session.get('verification_started') is None:
+        return back_btn_or_direct_link()
     selected_platforms = session['selected_platforms']
     if selected_platforms:
         session['platform'] = selected_platforms.pop(0)
@@ -183,6 +197,8 @@ def platform_verification():
 
 @user_verification.route('/redirect', methods=['POST'])
 def verification_redirect():
+    if session.get('verification_started') is None:
+        return back_btn_or_direct_link()
     selected_platforms = request.form.getlist('platform_checkbox')
     logger.info(f"{session['username']}, {selected_platforms}")
     if len(selected_platforms) == 0:
