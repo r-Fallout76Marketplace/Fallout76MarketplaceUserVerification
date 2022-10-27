@@ -103,7 +103,7 @@ def get_xuid(gamer_tag):
             profile_list = json_resp.get('profileUsers')[0]
             return profile_list['settings'][2]['value'], profile_list['id']
     except (requests.JSONDecodeError, KeyError, HTTPError) as err:
-        raise HTTPError("Could not find the GamerTag. Please check the spelling.") from err
+        raise HTTPError(f"Could not find the GamerTag {gamer_tag}. Please check the spelling.") from err
 
 
 def send_message_xbox(gamer_tag):
@@ -119,7 +119,7 @@ def send_message_xbox(gamer_tag):
         session['gt'] = gamer_tag
         session['gt_id'] = xuid
     except requests.HTTPError as err:
-        raise HTTPError("Could not send the message. Please make sure your profile is not private.") from err
+        raise HTTPError(f"Could not send the message to {gamer_tag}. Please make sure your profile is not private.") from err
 
 
 def send_message_psnid(gamer_tag):
@@ -134,10 +134,11 @@ def send_message_psnid(gamer_tag):
         session['gt_id'] = user.account_id
         logger.info(f"{session['username']}, {user.online_id} Verification code {verification_code}")
     except (PSNAWPNotFound, PSNAWPBadRequest) as not_found:
-        raise PSNAWPException("Could not find the GamerTag. Please check the spelling.") from not_found
+        raise PSNAWPException(f"Could not find the GamerTag {gamer_tag}. Please check the spelling.") from not_found
     except PSNAWPForbidden as forbidden:
-        raise PSNAWPException("Could not send the message because your profile is either private or you have blocked the bot account. See the "
-                              "<a href=\"https://imgur.com/a/ZNC9kFU\">PlayStation Message Settings</a> and make sure your settings are similar") from forbidden
+        raise PSNAWPException(f"Could not send the message to {gamer_tag} because the profile is either private or you have blocked the bot account. "
+                              f"See the <a href=\"https://imgur.com/a/ZNC9kFU\">PlayStation Message Settings</a> and make sure your settings are similar") \
+            from forbidden
     except PSNAWPAuthenticationError as auth_error:
         send_message_to_discord("NPSSO code for user verification has expired.")
         raise PSNAWPException("NPSSO Code Expired. Please message moderators.") from auth_error
