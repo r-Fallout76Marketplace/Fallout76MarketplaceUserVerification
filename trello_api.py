@@ -77,7 +77,7 @@ def search_in_blacklist(search_query: "Platform") -> list[Card]:
     return search_result
 
 
-def search_multiple_items_blacklist(search_queries: list["Platform"]) -> bool:
+def search_multiple_items_blacklist(search_queries: list["Platform"]) -> list[Card]:
     """
     Checks if any item provided in search queries exist in blacklist
 
@@ -88,4 +88,4 @@ def search_multiple_items_blacklist(search_queries: list["Platform"]) -> bool:
     for query in search_queries:
         cards = search_in_blacklist(query)
         result.extend(cards)
-    return bool(result)
+    return list(set(result))

@@ -2,6 +2,7 @@ import json
 from contextlib import suppress
 from os import getenv
 from random import randint
+from threading import Thread
 from typing import NamedTuple, Optional
 
 import requests
@@ -36,23 +37,31 @@ def send_message_to_discord(msg):
         requests.post(webhook, data=json.dumps(data), headers={"Content-Type": "application/json"})
 
 
+def check_user_in_blacklist(updated_data: dict):
+    user_data: list[Platform] = [Platform("Reddit", updated_data['key']),
+                                 Platform("PC", updated_data.get('Fallout 76')),
+                                 Platform("PS4", updated_data.get('PlayStation')),
+                                 Platform("PS4", updated_data.get('PlayStation_ID')),
+                                 Platform("XB1", updated_data.get('XBOX')),
+                                 Platform("XB1", updated_data.get('XBOX_ID'))]
+    result = search_multiple_items_blacklist([data for data in user_data if data.value is not None])
+    if result:
+        blacklist_urls = '\n'.join([x.short_url for x in result])
+        msg = f"Blacklisted u/{updated_data['key']} registered. See https://fallout76marketplace.com/user/{updated_data['key']}\n" \
+              f"Blacklist cards:\n{blacklist_urls}"
+        send_message_to_discord(msg)
+
+        updated_data["is_blacklisted"] = True
+        deta_api.update_item(updated_data, updated_data['key'])
+
+
 def add_gamer_tag_to_db(*, verification_complete, check_blacklist: bool = False):
     updated_data = deta_api.get_item(session['username']).items[0]
-
-    is_blacklisted = False
     if check_blacklist:
-        user_data: list[Platform] = [Platform("Reddit", session['username']),
-                                     Platform("PC", updated_data.get('Fallout 76')),
-                                     Platform("PS4", updated_data.get('PlayStation')),
-                                     Platform("PS4", updated_data.get('PlayStation_ID')),
-                                     Platform("XB1", updated_data.get('XBOX')),
-                                     Platform("XB1", updated_data.get('XBOX_ID'))]
-        result = search_multiple_items_blacklist([data for data in user_data if data.value is not None])
-        if result:
-            is_blacklisted = True
-            send_message_to_discord(f"Blacklisted u/{session['username']} registered. See https://fallout76marketplace.com/user/{session['username']}")
-    updated_data |= {"verification_complete": verification_complete, session['platform']: session['gt'], f"{session['platform']}_ID": session['gt_id'],
-                     "is_blacklisted": is_blacklisted}
+        black_list_check_thread = Thread(target=check_user_in_blacklist, args=(updated_data,))
+        black_list_check_thread.daemon = True
+        black_list_check_thread.start()
+    updated_data |= {"verification_complete": verification_complete, session['platform']: session['gt'], f"{session['platform']}_ID": session['gt_id']}
     deta_api.update_item(updated_data, session['username'])
 
 
