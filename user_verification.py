@@ -136,7 +136,8 @@ def send_message_psnid(gamer_tag):
     except (PSNAWPNotFound, PSNAWPBadRequest) as not_found:
         raise PSNAWPException("Could not find the GamerTag. Please check the spelling.") from not_found
     except PSNAWPForbidden as forbidden:
-        raise PSNAWPException("Could not send the message because your profile is either private or you have blocked the bot account.") from forbidden
+        raise PSNAWPException("Could not send the message because your profile is either private or you have blocked the bot account. See the "
+                              "<a href=\"https://imgur.com/a/ZNC9kFU\">PlayStation Message Settings</a> and make sure your settings are similar") from forbidden
     except PSNAWPAuthenticationError as auth_error:
         send_message_to_discord("NPSSO code for user verification has expired.")
         raise PSNAWPException("NPSSO Code Expired. Please message moderators.") from auth_error
