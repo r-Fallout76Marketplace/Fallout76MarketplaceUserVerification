@@ -16,7 +16,7 @@ from log_gen import create_logger
 from trello_api import search_multiple_items_blacklist
 
 user_verification = Blueprint("user_verification", __name__)
-logger = create_logger("user_verification")
+logger = create_logger()
 
 
 class Platform(NamedTuple):

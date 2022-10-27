@@ -11,7 +11,7 @@ from reddit_api import get_reddit_profile_info
 from user_verification import add_gamer_tag_to_db
 
 profile = Blueprint("profile", __name__)
-logger = create_logger("user_verification")
+logger = create_logger()
 WINDOWS_LOGO_URI = "/static/images/windows.webp"
 XBOX_LOGO_URI = "/static/images/xbox_logo.webp"
 PLAYSTATION_LOGO_URI = "/static/images/playstation_logo.webp"

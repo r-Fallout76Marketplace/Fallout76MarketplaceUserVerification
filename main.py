@@ -19,7 +19,7 @@ app.register_blueprint(profile, url_prefix="/user")
 load_dotenv('config.env')
 app.secret_key = getenv('FLASK_SECRET_KEY')
 app.permanent_session_lifetime = timedelta(days=7)
-logger = create_logger(__name__)
+logger = create_logger()
 
 
 @app.route('/login/callback')
