@@ -6,11 +6,12 @@ from psnawp_api import PSNAWP
 from psnawp_api.core.psnawp_exceptions import PSNAWPNotFound, PSNAWPAuthenticationError
 
 import deta_api
+from log_gen import create_logger
 from reddit_api import get_reddit_profile_info
 from user_verification import add_gamer_tag_to_db
 
 profile = Blueprint("profile", __name__)
-
+logger = create_logger("user_verification")
 WINDOWS_LOGO_URI = "/static/images/windows.webp"
 XBOX_LOGO_URI = "/static/images/xbox_logo.webp"
 PLAYSTATION_LOGO_URI = "/static/images/playstation_logo.webp"
@@ -26,6 +27,7 @@ def user_profile(user_name: str):
     user_name = user_name.lower()
     fetch_res = deta_api.get_item(user_name)
 
+    logger.info(f"{user_name} profile visited.")
     # If user doesn't exist in db
     if fetch_res.count == 0 or not fetch_res.items[0].get("verification_complete"):
         return render_template("error.html", error_title=f"Could not find {user_name}", error_message=f"The user does not exist or has not fully completed "
@@ -54,6 +56,7 @@ def update_pc_gamer_tag(user_name: str):
     session['gt_id'] = "0"
     session['platform'] = "Fallout 76"
     add_gamer_tag_to_db(verification_complete=True)
+    logger.info(f"{user_name} changed gamertag to {gamer_tag}")
     session.pop('gt', None)
     session.pop('gt_id', None)
     session.pop('platform', None)
