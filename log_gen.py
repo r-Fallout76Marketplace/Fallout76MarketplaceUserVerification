@@ -14,6 +14,7 @@ def create_logger(module_name: str, level: int | str = logging.INFO) -> logging.
     # Setting up the root logger
     logger = logging.getLogger(module_name)
     logger.setLevel(logging.DEBUG)
+    logger.propagate = False
 
     log_stream = logging.StreamHandler()
     log_stream.setLevel(level)
@@ -25,5 +26,4 @@ def create_logger(module_name: str, level: int | str = logging.INFO) -> logging.
     file_stream.setLevel(level)
     file_stream.setFormatter(formatter)
     logger.addHandler(file_stream)
-    logger.propagate = False
     return logger
