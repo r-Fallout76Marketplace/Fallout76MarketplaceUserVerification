@@ -7,11 +7,11 @@
 {% block profile_menu_item %}
     {% if profile_info['is_logged_in'] %}
         <li>
-            <a class="menu__item" href="{{ url_for('profile.user_profile', user_name=profile_info['display_name']) }}">
-                <img class="profile_pic_menu" src="{{ profile_info['profile_pic_uri'] }}" alt="https://avatarfiles.alphacoders.com/917/91786.jpg">
+            <a class="menu__item" href="{{ url_for('profile.user_profile', user_name=profile_info['my_display_name']) }}">
+                <img class="profile_pic_menu" src="{{ profile_info['my_profile_pic_uri'] }}" alt="https://avatarfiles.alphacoders.com/917/91786.jpg">
             </a>
         </li>
-        <li><a class="menu__item" href="{{ url_for('profile.user_profile', user_name=username) }}">u/{{ profile_info['display_name'] }}</a></li>
+        <li><a class="menu__item" href="{{ url_for('profile.user_profile', user_name=username) }}">u/{{ profile_info['my_display_name'] }}</a></li>
         {% if profile_info['is_own_profile'] %}
             <li><a class="menu__item" href="{{ url_for('profile.update_user_info') }}">Refresh data</a></li>
             <li><a class="menu__item" href="{{ url_for('profile.edit_pc_gamer_tag', user_name=profile_info['display_name']) }}">Edit PC GamerTag</a></li>

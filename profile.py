@@ -53,6 +53,15 @@ def user_profile(user_name: str):
     profile_info["gamer_tags"] = gamer_tags
     profile_info["is_logged_in"] = 'username' in session.keys()
     profile_info["is_own_profile"] = session.get('username') == user_name.lower()
+
+    if not profile_info["is_own_profile"]:
+        my_profile_info = get_reddit_profile_info(session.get('username'))
+        profile_info["my_display_name"] = my_profile_info.get("display_name")
+        profile_info["my_profile_pic_uri"] = my_profile_info.get("profile_pic_uri")
+    else:
+        profile_info["my_display_name"] = profile_info.get("display_name")
+        profile_info["my_profile_pic_uri"] = profile_info.get("profile_pic_uri")
+
     profile_info["is_blacklisted"] = fetch_res.items[0].get("is_blacklisted")
     return render_template('profile.html', profile_info=profile_info)
 
