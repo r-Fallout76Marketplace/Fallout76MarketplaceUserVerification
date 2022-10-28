@@ -27,10 +27,11 @@
         <li class="menu__item">
             <form action="/user/search_username" method="GET">
                 <label>
-                    <input type="text" name="search_box" style="background-color: black; padding: 10px; border-radius: 10px; width: 145px;"
+                    <input type="text" name="search_box" style="background-color: black; padding: 10px; border-radius: 10px; width: 190px;"
                            placeholder="u/<reddit-username>" required>
                 </label>
-                <input type="submit" style="background-color: #D9AF2F; padding: 10px; border-radius: 10px; margin-left: 10px; color: black;" value="Search">
+                <input type="submit" style="background-color: #D9AF2F; padding: 9px; border-radius: 10px; margin-left: 15px; color: black; font-weight: bold"
+                       value="Search">
             </form>
         </li>
         {% block profile_menu_item %} {% endblock %}
