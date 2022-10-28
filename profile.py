@@ -22,6 +22,14 @@ def user_not_found(username):
     return render_template("error.html", error_title=f"Could not find {username}", error_message=msg)
 
 
+@profile.route('/search_username', methods=['GET'])
+def search_user():
+    user_name = request.args.get('search_box')
+    if user_name.startswith("u/"):
+        user_name = user_name[2:]
+    return redirect(url_for("profile.user_profile", user_name=user_name))
+
+
 @profile.route('/<user_name>', methods=['GET'])
 def user_profile(user_name: str):
     user_name = user_name.lower()

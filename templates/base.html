@@ -5,6 +5,7 @@
     <meta name="darkreader-lock">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     {% block css_link %} {% endblock %}
     <title>r/Fallout76Marketplace</title>
 </head>
@@ -28,7 +29,15 @@
         <li><a class="menu__item" href="https://trello.com/b/8oCsXC2j">Trading Blacklist</a></li>
         <li><a class="menu__item" href="https://www.reddit.com/r/Fallout76Marketplace/wiki/index">Wiki</a></li>
         <li><a class="menu__item" href="https://www.reddit.com/message/compose?to=/r/Fallout76Marketplace">Contact Us</a></li>
-        {% block menu_item %} {% endblock %}
+        <li class="menu__item">
+            <form action="/user/search_username" method="GET">
+                <label>
+                    <input type="text" name="search_box" style="background-color: black; padding: 10px; border-radius: 10px; width: 145px;"
+                           placeholder="u/<reddit-username>" required>
+                </label>
+                <input type="submit" style="background-color: #D9AF2F; padding: 10px; border-radius: 10px; margin-left: 10px; color: black;" value="Search">
+            </form>
+        </li>
     </ul>
 </div>
 
