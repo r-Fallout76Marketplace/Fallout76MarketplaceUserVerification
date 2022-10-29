@@ -35,7 +35,8 @@ def user_profile(user_name: str):
     user_name = user_name.lower()
     fetch_res = deta_api.get_item(user_name)
 
-    logger.info(f"{user_name} profile visited by {session.get('username', '!NotLoggedIn')}.")
+    logger.info(f"{user_name} profile visited by {session.get('username', '!NotLoggedIn')}"
+                f"{request.headers.get('Cf-Connecting-Ip', request.remote_addr)} {request.headers.get('User-Agent')}.")
     # If user doesn't exist in db
     if fetch_res.count == 0 or not fetch_res.items[0].get("verification_complete"):
         return render_template("error.html", error_title=f"Could not find {user_name}", error_message=f"The user does not exist or has not fully completed "
