@@ -73,7 +73,7 @@ def add_gamer_tag_to_db(*, verification_complete, check_blacklist: bool = False)
 
 @user_verification.route('/user_profile', methods=['POST'])
 def redirect_to_profile():
-    if session.get('verification_started') is None:
+    if session.get('verification_started') is None or session.get('redirected_to_rules') is None:
         return back_btn_or_direct_link()
     logger.info(f"{session['username']} accepted the agreement.")
     add_gamer_tag_to_db(verification_complete=True, check_blacklist=True)
@@ -192,6 +192,7 @@ def platform_verification():
         session['platform'] = selected_platforms.pop(0)
         return render_template("gamer_tag.html", platform=session['platform'], warning_message=request.args['warning_message'])
     else:
+        session['redirected_to_rules'] = True
         return render_template("subreddit_rules.html")
 
 
