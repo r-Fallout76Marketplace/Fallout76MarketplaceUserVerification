@@ -93,6 +93,9 @@ def verify_identity():
     logger.info(f"{session['username']}, Actual code {session['verification_code']} vs user input {verification_code}")
     if session['verification_code'] == int(verification_code):
         add_gamer_tag_to_db(verification_complete=False)
+        selected_platforms = session['selected_platforms']
+        selected_platforms.pop(0)
+        session['selected_platforms'] = selected_platforms
         return redirect(url_for('user_verification.platform_verification', warning_message=""))
     else:
         return render_template("verification_code.html", platform=session['platform'], warning_message="Verification Code incorrect. Please try again.")
@@ -172,13 +175,15 @@ def get_gamer_tag():
             session['gt'] = gamer_tag
             session['gt_id'] = "0"
             add_gamer_tag_to_db(verification_complete=False)
+            selected_platforms = session['selected_platforms']
+            selected_platforms.pop(0)
+            session['selected_platforms'] = selected_platforms
             # For PC, we do not need message verification.
             return redirect(url_for('user_verification.platform_verification', warning_message=""))
     except Exception as e:
         logger.exception(str(e), exc_info=True)
         # This needs to be done otherwise flask doesn't like it
         selected_platforms = session['selected_platforms']
-        selected_platforms.insert(0, platform)
         session['selected_platforms'] = selected_platforms
         return redirect(url_for('user_verification.platform_verification', warning_message=str(e)))
 
@@ -189,8 +194,8 @@ def platform_verification():
         return back_btn_or_direct_link()
     selected_platforms = session['selected_platforms']
     if selected_platforms:
-        session['platform'] = selected_platforms.pop(0)
-        return render_template("gamer_tag.html", platform=session['platform'], warning_message=request.args['warning_message'])
+        session['platform'] = selected_platforms[0]
+        return render_template("gamer_tag.html", platform=session['platform'], warning_message=request.args.get("warning_message", ""))
     else:
         session['redirected_to_rules'] = True
         return render_template("subreddit_rules.html")
