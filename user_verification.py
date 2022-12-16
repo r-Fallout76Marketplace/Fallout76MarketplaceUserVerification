@@ -182,9 +182,6 @@ def get_gamer_tag():
             return redirect(url_for('user_verification.platform_verification', warning_message=""))
     except Exception as e:
         logger.exception(str(e), exc_info=True)
-        # This needs to be done otherwise flask doesn't like it
-        selected_platforms = session['selected_platforms']
-        session['selected_platforms'] = selected_platforms
         return redirect(url_for('user_verification.platform_verification', warning_message=str(e)))
 
 
