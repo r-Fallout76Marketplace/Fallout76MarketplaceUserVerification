@@ -88,41 +88,33 @@ def edit_pc_gamer_tag(user_name: str):
 
 def xuid_to_gamer_tag(xuid):
     auth_headers = {"X-Authorization": getenv("XBOX_API")}
-    resp = requests.get(f'https://xbl.io/api/v2/account/{xuid}', headers=auth_headers).json()
-    xbox_profile = resp.get('profileUsers')[0]
-    try:
-        gamer_tag = xbox_profile['settings'][2]['value']
-        return gamer_tag
-    except KeyError:
-        return None
+    resp = requests.get(f'https://xbl.io/api/v2/account/{xuid}', headers=auth_headers)
+    resp.raise_for_status()
+    json_data = resp.json()
+    xbox_profile = json_data.get('profileUsers')[0]
+    gamer_tag = xbox_profile['settings'][2]['value']
+    return gamer_tag
 
 
 @profile.route('/update_info')
 def update_user_info():
     if session.get('username'):
         fetch_res = deta_api.get_item(session.get('username')).items[0]
-
         if xuid := fetch_res.get('XBOX_ID'):
-            new_gt = "Failed to fetch the XBOX GamerTag."
-            for i in range(2):
-                # Sometimes XBOX api returns empty results so have to try twice
-                gt = xuid_to_gamer_tag(xuid)
-                if gt is not None:
-                    new_gt = gt
-                    break
-
-            fetch_res["XBOX"] = new_gt
+            try:
+                fetch_res["XBOX"] = xuid_to_gamer_tag(xuid)
+                deta_api.update_item(fetch_res, session.get('username'))
+            except requests.HTTPError:
+                fetch_res["XBOX"] = "Failed to fetch the XBOX GamerTag."
             deta_api.update_item(fetch_res, session.get('username'))
 
         if psnid := fetch_res.get("PlayStation_ID"):
             try:
                 psnawp = PSNAWP(getenv('NPSSO'))
                 user = psnawp.user(account_id=f"{psnid}")
-                new_gt = user.online_id
+                fetch_res["PlayStation"] = user.online_id
             except (PSNAWPNotFound, PSNAWPAuthenticationError):
-                new_gt = "Failed to fetch the PSN GamerTag."
-
-            fetch_res["PlayStation"] = new_gt
+                fetch_res["PlayStation"] = "Failed to fetch the PSN GamerTag."
             deta_api.update_item(fetch_res, session.get('username'))
 
         return redirect(url_for("profile.user_profile", user_name=session['username']))
