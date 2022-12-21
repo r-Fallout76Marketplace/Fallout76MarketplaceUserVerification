@@ -107,7 +107,7 @@ def update_user_info():
             except requests.HTTPError:
                 fetch_res["XBOX"] = "Failed to fetch the XBOX GamerTag."
             deta_api.update_item(fetch_res, session.get('username'))
-
+            logger.info(f"XBOX GT updated to {fetch_res['XBOX']}")
         if psnid := fetch_res.get("PlayStation_ID"):
             try:
                 psnawp = PSNAWP(getenv('NPSSO'))
@@ -116,6 +116,7 @@ def update_user_info():
             except (PSNAWPNotFound, PSNAWPAuthenticationError):
                 fetch_res["PlayStation"] = "Failed to fetch the PSN GamerTag."
             deta_api.update_item(fetch_res, session.get('username'))
+            logger.info(f"PlayStation GT updated to {fetch_res['PlayStation']}")
 
         return redirect(url_for("profile.user_profile", user_name=session['username']))
     else:
