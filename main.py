@@ -68,7 +68,7 @@ def reddit_oauth_callback():
 
 @app.route('/reddit_oauth', methods=["POST"])
 def reddit_oauth():
-    return redirect("https://www.reddit.com/api/v1/authorize?"
+    return redirect("https://old.reddit.com/api/v1/authorize?"
                     f"client_id={getenv('CLIENT_ID')}&"
                     "response_type=code&"
                     "state=fallout&"
