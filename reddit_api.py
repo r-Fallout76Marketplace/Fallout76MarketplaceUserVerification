@@ -160,7 +160,7 @@ def get_reddit_profile_info(user_name: str) -> dict:
     if reddit_profile_info.get("error"):
         return reddit_profile_info
 
-    if reddit_profile_info['data']['subreddit'].get("over_18"):
+    if reddit_profile_info['data'].get("subreddit", {}).get("over_18"):
         profile_pic_uri = "/static/images/76_logo.png"
     else:
         profile_pic_uri = reddit_profile_info['data'].get('icon_img', "https://avatarfiles.alphacoders.com/917/91786.jpg")
